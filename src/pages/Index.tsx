@@ -11,66 +11,71 @@ import { Textarea } from "@/components/ui/textarea";
 import Icon from "@/components/ui/icon";
 import { useToast } from "@/hooks/use-toast";
 
+const DONATE_COIN_PRICE = 15000;
+
 const JOBS = [
-  { id: 1, name: "Президент", salary: 500000, category: "government", description: "Управление страной" },
-  { id: 2, name: "Губернатор", salary: 350000, category: "government", description: "Управление регионом" },
-  { id: 3, name: "Мэр", salary: 250000, category: "government", description: "Управление городом" },
-  { id: 4, name: "Депутат Госдумы", salary: 200000, category: "government", description: "Законотворчество" },
-  { id: 5, name: "Врач", salary: 120000, category: "medical", description: "Лечение пациентов" },
-  { id: 6, name: "Хирург", salary: 180000, category: "medical", description: "Хирургические операции" },
-  { id: 7, name: "Медсестра", salary: 60000, category: "medical", description: "Уход за пациентами" },
-  { id: 8, name: "Учитель", salary: 70000, category: "education", description: "Преподавание в школе" },
-  { id: 9, name: "Профессор", salary: 150000, category: "education", description: "Преподавание в университете" },
-  { id: 10, name: "Директор школы", salary: 100000, category: "education", description: "Управление школой" },
-  { id: 11, name: "Полицейский", salary: 80000, category: "law", description: "Охрана правопорядка" },
-  { id: 12, name: "Детектив", salary: 120000, category: "law", description: "Расследование преступлений" },
-  { id: 13, name: "Судья", salary: 200000, category: "law", description: "Вынесение приговоров" },
-  { id: 14, name: "Адвокат", salary: 150000, category: "law", description: "Защита в суде" },
-  { id: 15, name: "Прокурор", salary: 180000, category: "law", description: "Уголовное преследование" },
-  { id: 16, name: "Пожарный", salary: 70000, category: "emergency", description: "Тушение пожаров" },
-  { id: 17, name: "Фельдшер", salary: 65000, category: "emergency", description: "Скорая помощь" },
-  { id: 18, name: "Журналист СМИ", salary: 90000, category: "media", description: "Написание новостей" },
-  { id: 19, name: "Редактор СМИ", salary: 130000, category: "media", description: "Редактирование публикаций" },
-  { id: 20, name: "Телеведущий", salary: 200000, category: "media", description: "Ведение телепередач" },
-  { id: 21, name: "Бизнесмен", salary: 300000, category: "business", description: "Управление бизнесом" },
-  { id: 22, name: "Банкир", salary: 250000, category: "business", description: "Финансовые операции" },
-  { id: 23, name: "Риелтор", salary: 110000, category: "business", description: "Продажа недвижимости" },
-  { id: 24, name: "Автодилер", salary: 140000, category: "business", description: "Продажа автомобилей" },
-  { id: 25, name: "Таксист", salary: 50000, category: "transport", description: "Перевозка пассажиров" },
-  { id: 26, name: "Водитель автобуса", salary: 55000, category: "transport", description: "Общественный транспорт" },
-  { id: 27, name: "Пилот", salary: 300000, category: "transport", description: "Управление самолётом" },
-  { id: 28, name: "Инженер", salary: 130000, category: "tech", description: "Разработка технологий" },
-  { id: 29, name: "Программист", salary: 180000, category: "tech", description: "Разработка ПО" },
-  { id: 30, name: "Электрик", salary: 70000, category: "tech", description: "Электромонтажные работы" },
-  { id: 31, name: "Сантехник", salary: 65000, category: "tech", description: "Сантехнические работы" },
-  { id: 32, name: "Строитель", salary: 75000, category: "construction", description: "Строительные работы" },
-  { id: 33, name: "Архитектор", salary: 150000, category: "construction", description: "Проектирование зданий" },
-  { id: 34, name: "Повар", salary: 60000, category: "service", description: "Приготовление блюд" },
-  { id: 35, name: "Официант", salary: 40000, category: "service", description: "Обслуживание в ресторане" },
-  { id: 36, name: "Бармен", salary: 50000, category: "service", description: "Приготовление напитков" },
-  { id: 37, name: "Парикмахер", salary: 55000, category: "service", description: "Парикмахерские услуги" },
-  { id: 38, name: "Фитнес-тренер", salary: 70000, category: "service", description: "Тренировки клиентов" },
-  { id: 39, name: "Музыкант", salary: 80000, category: "art", description: "Музыкальные выступления" },
-  { id: 40, name: "Художник", salary: 70000, category: "art", description: "Создание произведений" },
-  { id: 41, name: "Актёр", salary: 150000, category: "art", description: "Актёрская игра" },
-  { id: 42, name: "Фермер", salary: 60000, category: "agriculture", description: "Выращивание продуктов" },
-  { id: 43, name: "Рыбак", salary: 55000, category: "agriculture", description: "Рыболовство" },
-  { id: 44, name: "Военный", salary: 100000, category: "military", description: "Служба в армии" },
-  { id: 45, name: "Охранник", salary: 50000, category: "security", description: "Охрана объектов" },
-  { id: 46, name: "Детектив частный", salary: 110000, category: "security", description: "Частный сыск" },
-  { id: 47, name: "Спортсмен", salary: 200000, category: "sport", description: "Профессиональный спорт" },
-  { id: 48, name: "Менеджер", salary: 90000, category: "business", description: "Управление проектами" },
-  { id: 49, name: "Маркетолог", salary: 100000, category: "business", description: "Продвижение продуктов" },
-  { id: 50, name: "HR-специалист", salary: 85000, category: "business", description: "Подбор персонала" }
+  { id: 1, name: "Президент", salary: 500000, category: "government", description: "Управление страной", requiredLevel: 50, requiresCountry: true },
+  { id: 2, name: "Губернатор", salary: 350000, category: "government", description: "Управление регионом", requiredLevel: 40, requiresCountry: false },
+  { id: 3, name: "Мэр", salary: 250000, category: "government", description: "Управление городом", requiredLevel: 35, requiresCountry: false },
+  { id: 4, name: "Депутат Госдумы", salary: 200000, category: "government", description: "Законотворчество", requiredLevel: 30, requiresCountry: false },
+  { id: 5, name: "Врач", salary: 120000, category: "medical", description: "Лечение пациентов", requiredLevel: 15, requiresCountry: false },
+  { id: 6, name: "Хирург", salary: 180000, category: "medical", description: "Хирургические операции", requiredLevel: 25, requiresCountry: false },
+  { id: 7, name: "Медсестра", salary: 60000, category: "medical", description: "Уход за пациентами", requiredLevel: 5, requiresCountry: false },
+  { id: 8, name: "Учитель", salary: 70000, category: "education", description: "Преподавание в школе", requiredLevel: 8, requiresCountry: false },
+  { id: 9, name: "Профессор", salary: 150000, category: "education", description: "Преподавание в университете", requiredLevel: 20, requiresCountry: false },
+  { id: 10, name: "Директор школы", salary: 100000, category: "education", description: "Управление школой", requiredLevel: 18, requiresCountry: false },
+  { id: 11, name: "Полицейский", salary: 80000, category: "law", description: "Охрана правопорядка", requiredLevel: 10, requiresCountry: false },
+  { id: 12, name: "Детектив", salary: 120000, category: "law", description: "Расследование преступлений", requiredLevel: 18, requiresCountry: false },
+  { id: 13, name: "Судья", salary: 200000, category: "law", description: "Вынесение приговоров", requiredLevel: 30, requiresCountry: false },
+  { id: 14, name: "Адвокат", salary: 150000, category: "law", description: "Защита в суде", requiredLevel: 22, requiresCountry: false },
+  { id: 15, name: "Прокурор", salary: 180000, category: "law", description: "Уголовное преследование", requiredLevel: 28, requiresCountry: false },
+  { id: 16, name: "Пожарный", salary: 70000, category: "emergency", description: "Тушение пожаров", requiredLevel: 8, requiresCountry: false },
+  { id: 17, name: "Фельдшер", salary: 65000, category: "emergency", description: "Скорая помощь", requiredLevel: 7, requiresCountry: false },
+  { id: 18, name: "Журналист СМИ", salary: 90000, category: "media", description: "Написание новостей", requiredLevel: 12, requiresCountry: false },
+  { id: 19, name: "Редактор СМИ", salary: 130000, category: "media", description: "Редактирование публикаций", requiredLevel: 20, requiresCountry: false },
+  { id: 20, name: "Телеведущий", salary: 200000, category: "media", description: "Ведение телепередач", requiredLevel: 28, requiresCountry: false },
+  { id: 21, name: "Бизнесмен", salary: 300000, category: "business", description: "Управление бизнесом", requiredLevel: 35, requiresCountry: false },
+  { id: 22, name: "Банкир", salary: 250000, category: "business", description: "Финансовые операции", requiredLevel: 32, requiresCountry: false },
+  { id: 23, name: "Риелтор", salary: 110000, category: "business", description: "Продажа недвижимости", requiredLevel: 15, requiresCountry: false },
+  { id: 24, name: "Автодилер", salary: 140000, category: "business", description: "Продажа автомобилей", requiredLevel: 18, requiresCountry: false },
+  { id: 25, name: "Таксист", salary: 50000, category: "transport", description: "Перевозка пассажиров", requiredLevel: 3, requiresCountry: false },
+  { id: 26, name: "Водитель автобуса", salary: 55000, category: "transport", description: "Общественный транспорт", requiredLevel: 5, requiresCountry: false },
+  { id: 27, name: "Пилот", salary: 300000, category: "transport", description: "Управление самолётом", requiredLevel: 40, requiresCountry: false },
+  { id: 28, name: "Инженер", salary: 130000, category: "tech", description: "Разработка технологий", requiredLevel: 20, requiresCountry: false },
+  { id: 29, name: "Программист", salary: 180000, category: "tech", description: "Разработка ПО", requiredLevel: 25, requiresCountry: false },
+  { id: 30, name: "Электрик", salary: 70000, category: "tech", description: "Электромонтажные работы", requiredLevel: 8, requiresCountry: false },
+  { id: 31, name: "Сантехник", salary: 65000, category: "tech", description: "Сантехнические работы", requiredLevel: 6, requiresCountry: false },
+  { id: 32, name: "Строитель", salary: 75000, category: "construction", description: "Строительные работы", requiredLevel: 7, requiresCountry: false },
+  { id: 33, name: "Архитектор", salary: 150000, category: "construction", description: "Проектирование зданий", requiredLevel: 22, requiresCountry: false },
+  { id: 34, name: "Повар", salary: 60000, category: "service", description: "Приготовление блюд", requiredLevel: 5, requiresCountry: false },
+  { id: 35, name: "Официант", salary: 40000, category: "service", description: "Обслуживание в ресторане", requiredLevel: 1, requiresCountry: false },
+  { id: 36, name: "Бармен", salary: 50000, category: "service", description: "Приготовление напитков", requiredLevel: 4, requiresCountry: false },
+  { id: 37, name: "Парикмахер", salary: 55000, category: "service", description: "Парикмахерские услуги", requiredLevel: 5, requiresCountry: false },
+  { id: 38, name: "Фитнес-тренер", salary: 70000, category: "service", description: "Тренировки клиентов", requiredLevel: 10, requiresCountry: false },
+  { id: 39, name: "Музыкант", salary: 80000, category: "art", description: "Музыкальные выступления", requiredLevel: 12, requiresCountry: false },
+  { id: 40, name: "Художник", salary: 70000, category: "art", description: "Создание произведений", requiredLevel: 10, requiresCountry: false },
+  { id: 41, name: "Актёр", salary: 150000, category: "art", description: "Актёрская игра", requiredLevel: 20, requiresCountry: false },
+  { id: 42, name: "Фермер", salary: 60000, category: "agriculture", description: "Выращивание продуктов", requiredLevel: 6, requiresCountry: false },
+  { id: 43, name: "Рыбак", salary: 55000, category: "agriculture", description: "Рыболовство", requiredLevel: 5, requiresCountry: false },
+  { id: 44, name: "Военный", salary: 100000, category: "military", description: "Служба в армии", requiredLevel: 15, requiresCountry: false },
+  { id: 45, name: "Охранник", salary: 50000, category: "security", description: "Охрана объектов", requiredLevel: 4, requiresCountry: false },
+  { id: 46, name: "Детектив частный", salary: 110000, category: "security", description: "Частный сыск", requiredLevel: 16, requiresCountry: false },
+  { id: 47, name: "Спортсмен", salary: 200000, category: "sport", description: "Профессиональный спорт", requiredLevel: 25, requiresCountry: false },
+  { id: 48, name: "Менеджер", salary: 90000, category: "business", description: "Управление проектами", requiredLevel: 12, requiresCountry: false },
+  { id: 49, name: "Маркетолог", salary: 100000, category: "business", description: "Продвижение продуктов", requiredLevel: 14, requiresCountry: false },
+  { id: 50, name: "HR-специалист", salary: 85000, category: "business", description: "Подбор персонала", requiredLevel: 11, requiresCountry: false }
 ];
 
 const DONATE_ITEMS = [
-  { id: 1, name: "Донат Валюта 100", price: 100, icon: "Coins", description: "100 донат монет" },
-  { id: 2, name: "Донат Валюта 500", price: 500, icon: "Coins", description: "500 донат монет" },
-  { id: 3, name: "Донат Валюта 1000", price: 1000, icon: "Coins", description: "1000 донат монет" },
-  { id: 4, name: "Премиум аккаунт 30 дней", price: 500, icon: "Crown", description: "Премиум возможности на месяц" },
-  { id: 5, name: "VIP статус", price: 2000, icon: "Star", description: "Эксклюзивный VIP статус" },
-  { id: 6, name: "Создать страну", price: 1000, icon: "Flag", description: "Создание собственного государства" }
+  { id: 1, name: "1 Донат Монета", price: 15000, realPrice: 1, icon: "Coins", description: "1 донат монета" },
+  { id: 2, name: "10 Донат Монет", price: 150000, realPrice: 10, icon: "Coins", description: "10 донат монет" },
+  { id: 3, name: "50 Донат Монет", price: 750000, realPrice: 50, icon: "Coins", description: "50 донат монет" },
+  { id: 4, name: "100 Донат Монет", price: 1500000, realPrice: 100, icon: "Coins", description: "100 донат монет" },
+  { id: 5, name: "500 Донат Монет", price: 7500000, realPrice: 500, icon: "Coins", description: "500 донат монет" },
+  { id: 6, name: "1000 Донат Монет", price: 15000000, realPrice: 1000, icon: "Coins", description: "1000 донат монет" },
+  { id: 7, name: "Премиум аккаунт 30 дней", price: 0, realPrice: 500, icon: "Crown", description: "Премиум возможности на месяц", donateOnly: true },
+  { id: 8, name: "VIP статус", price: 0, realPrice: 2000, icon: "Star", description: "Эксклюзивный VIP статус", donateOnly: true },
+  { id: 9, name: "Создать страну", price: 0, realPrice: 1000, icon: "Flag", description: "Создание собственного государства", donateOnly: true }
 ];
 
 const PROPERTIES = [
@@ -98,6 +103,7 @@ const Index = () => {
     name: "Игрок",
     balance: 10000,
     donateBalance: 0,
+    hasCountry: false,
     level: 1,
     job: "",
     hunger: 100,
@@ -112,10 +118,28 @@ const Index = () => {
 
   const handleJobSelect = (jobId: number) => {
     const job = JOBS.find(j => j.id === jobId);
-    if (job) {
-      setPlayerData({ ...playerData, job: job.name });
-      toast({ title: "Работа получена!", description: `Вы устроились на должность: ${job.name}` });
+    if (!job) return;
+
+    if (job.requiredLevel > playerData.level) {
+      toast({ 
+        title: "Недостаточный уровень!", 
+        description: `Для этой работы нужен ${job.requiredLevel} уровень. У вас: ${playerData.level}`,
+        variant: "destructive"
+      });
+      return;
     }
+
+    if (job.requiresCountry && !playerData.hasCountry) {
+      toast({ 
+        title: "Нужна своя страна!", 
+        description: "Для должности Президента нужно создать страну за 1000 DC",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setPlayerData({ ...playerData, job: job.name });
+    toast({ title: "Работа получена!", description: `Вы устроились на должность: ${job.name}` });
   };
 
   const handleBuyProperty = (propId: number) => {
@@ -148,8 +172,48 @@ const Index = () => {
 
   const handleBuyDonate = (itemId: number) => {
     const item = DONATE_ITEMS.find(i => i.id === itemId);
-    if (item) {
-      toast({ title: "Донат покупка", description: `${item.name} добавлен в корзину` });
+    if (!item) return;
+
+    if (item.donateOnly) {
+      if (playerData.donateBalance < item.realPrice) {
+        toast({ 
+          title: "Недостаточно донат монет!", 
+          description: `Нужно ${item.realPrice} DC. У вас: ${playerData.donateBalance} DC`,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (item.id === 9) {
+        setPlayerData({ 
+          ...playerData, 
+          donateBalance: playerData.donateBalance - item.realPrice,
+          hasCountry: true
+        });
+        toast({ title: "Страна создана!", description: "Теперь вы можете стать президентом!" });
+      } else {
+        setPlayerData({ 
+          ...playerData, 
+          donateBalance: playerData.donateBalance - item.realPrice
+        });
+        toast({ title: "Покупка совершена!", description: `${item.name} активирован` });
+      }
+    } else {
+      if (playerData.balance < item.price) {
+        toast({ 
+          title: "Недостаточно средств!", 
+          description: `Нужно ${item.price.toLocaleString()} ₽. У вас: ${playerData.balance.toLocaleString()} ₽`,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      setPlayerData({ 
+        ...playerData, 
+        balance: playerData.balance - item.price,
+        donateBalance: playerData.donateBalance + item.realPrice
+      });
+      toast({ title: "Покупка совершена!", description: `Получено ${item.realPrice} DC` });
     }
   };
 
@@ -308,12 +372,25 @@ const Index = () => {
                             <Badge variant="secondary">{job.salary.toLocaleString()} ₽</Badge>
                           </div>
                           <CardDescription>{job.description}</CardDescription>
+                          <div className="flex items-center gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">
+                              <Icon name="TrendingUp" size={12} className="mr-1" />
+                              Ур. {job.requiredLevel}
+                            </Badge>
+                            {job.requiresCountry && (
+                              <Badge variant="outline" className="text-xs border-accent text-accent">
+                                <Icon name="Flag" size={12} className="mr-1" />
+                                Нужна страна
+                              </Badge>
+                            )}
+                          </div>
                         </CardHeader>
                         <CardContent>
                           <Button 
                             onClick={() => handleJobSelect(job.id)} 
                             className="w-full"
                             variant={playerData.job === job.name ? "secondary" : "default"}
+                            disabled={job.requiredLevel > playerData.level || (job.requiresCountry && !playerData.hasCountry)}
                           >
                             {playerData.job === job.name ? "Текущая работа" : "Устроиться"}
                           </Button>
@@ -697,7 +774,7 @@ const Index = () => {
                   <Icon name="Gem" />
                   Донат магазин
                 </CardTitle>
-                <CardDescription>Премиум возможности и бонусы</CardDescription>
+                <CardDescription>1 Донат Монета = 15,000 ₽ | Покупайте донат валюту за игровые деньги</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -710,16 +787,35 @@ const Index = () => {
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-2">
-                          <Badge variant="secondary" className="w-full justify-center py-2">
-                            {item.price} DC
-                          </Badge>
-                          <Button 
-                            onClick={() => handleBuyDonate(item.id)}
-                            className="w-full"
-                            variant="default"
-                          >
-                            Купить
-                          </Button>
+                          {item.donateOnly ? (
+                            <>
+                              <Badge variant="secondary" className="w-full justify-center py-2 bg-accent/20 border-accent text-accent">
+                                {item.realPrice} DC
+                              </Badge>
+                              <Button 
+                                onClick={() => handleBuyDonate(item.id)}
+                                className="w-full"
+                                variant="default"
+                                disabled={playerData.donateBalance < item.realPrice}
+                              >
+                                Купить за DC
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Badge variant="secondary" className="w-full justify-center py-2">
+                                {item.price.toLocaleString()} ₽ → {item.realPrice} DC
+                              </Badge>
+                              <Button 
+                                onClick={() => handleBuyDonate(item.id)}
+                                className="w-full"
+                                variant="default"
+                                disabled={playerData.balance < item.price}
+                              >
+                                Купить за ₽
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </CardContent>
                     </Card>
